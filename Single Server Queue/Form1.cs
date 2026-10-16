@@ -20,14 +20,9 @@ namespace WinFormsApp1
             Servicetimeunit.SelectedIndex = 1;
             servicedist.SelectedIndex = 0;
             arrivaldist.SelectedIndex = 0;
+            errorRho.Visible = false;
         }
-        
-
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
+       
 
         private void system_box_Load(object sender, EventArgs e)
         {
@@ -101,30 +96,6 @@ namespace WinFormsApp1
 
         }
 
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void calculation(object sender, EventArgs e)
         {
@@ -135,16 +106,335 @@ namespace WinFormsApp1
                 return;
             }
 
-            double rho = 0;
-            double idle = 0;
-            double Lq = 0;
-            double Wq = 0;
-            double W = 0;
-            double L = 0;
+         
             double variance = 0;
             double arrival_variance= 0;
-            double Ca2 = 0;
-            double Cs2 = 0;
+         
+
+
+            if (modelbox.Text == "M/M/1")
+            {
+                if (wisebox.Text == "Mean")
+                {
+                    lambda = 1 / lambda;
+                }
+
+                if (servicewise.Text == "Mean")
+                {
+                    mu = 1 / mu;
+                }
+
+                CalculateMM1(lambda, mu);
+
+            }
+            else if (modelbox.Text == "M/G/1")
+            {
+                if (wisebox.Text == "Mean")
+                {
+                    lambda = 1 / lambda;
+                }
+
+                if (servicedist.Text == "Uniform")
+
+                {
+                    if (!double.TryParse(service_input1.Text, out double min_service) || 
+                        !double.TryParse(service_input2.Text, out double max_service))
+
+                    {
+                        MessageBox.Show("Please enter a valid number for min and max service inputs.");
+                        return;
+                    }
+
+
+                    mu = (min_service + max_service) / 2;
+                    mu = 1 / mu;
+                    variance = Math.Pow((max_service - min_service), 2) / 12;
+                    CalculateMG1(lambda, mu,variance);
+
+                }
+                else if (servicedist.Text == "Gamma")
+                {
+
+                    if (!double.TryParse(service_input1.Text, out double K) ||
+                        !double.TryParse(service_input2.Text, out double Q))
+
+                    {
+                        MessageBox.Show("Please enter a valid number for K and Q service inputs.");
+                        return;
+                    }
+                    mu = K * Q;
+                    mu = 1 / mu;
+                    variance = K * (Math.Pow(Q, 2));
+                    CalculateMG1(lambda, mu, variance);
+                }
+                else if (servicedist.Text == "Exponential")
+                {
+
+                    CalculateMM1(lambda, mu);
+                }
+                else if (servicedist.Text == "Normal")
+                {
+
+                    if (!double.TryParse(service_input1.Text, out double ES) ||
+                        !double.TryParse(service_input2.Text, out double sd))
+
+                    {
+                        MessageBox.Show("Please enter a valid number for ES and sd inputs.");
+                        return;
+                    }
+
+                    mu = 1 / ES;
+                    variance = Math.Pow(sd, 2);
+                    CalculateMG1(lambda, mu, variance);
+
+                }
+
+            }
+            else if (modelbox.Text == "G/G/1")
+            {
+                if (arrivaldist.Text == "Uniform")
+                {
+                    double min_arrival = Convert.ToDouble(arrival_input1.Text);
+                    double max_arrival = Convert.ToDouble(arrival_input2.Text);
+
+                    lambda = (min_arrival + max_arrival) / 2;
+                    lambda = 1 / lambda;
+                    arrival_variance = Math.Pow((max_arrival - min_arrival), 2) / 12;
+
+                    if(servicedist.Text == "Uniform")
+                    {
+
+                        if (!double.TryParse(service_input1.Text, out double min_service) ||
+                        !double.TryParse(service_input2.Text, out double max_service))
+
+                        {
+                            MessageBox.Show("Please enter a valid number for min and max service inputs.");
+                            return;
+                        }
+
+                        mu = (min_service + max_service) / 2;
+                        mu = 1 / mu;
+                        variance = Math.Pow((max_service - min_service), 2) / 12;
+                        CalculateGG1(lambda, mu,arrival_variance, variance);
+
+                    } else if (servicedist.Text == "Gamma") 
+                    {
+                        if (!double.TryParse(service_input1.Text, out double K) ||
+                         !double.TryParse(service_input2.Text, out double Q))
+
+                        {
+                            MessageBox.Show("Please enter a valid number for K and Q service inputs.");
+                            return;
+                        }
+
+                        mu = K * Q;
+                        mu = 1 / mu;
+
+                        variance = K * (Math.Pow(Q, 2));
+                        CalculateGG1(lambda, mu, arrival_variance, variance);
+
+                    } else if(servicedist.Text == "Normal")
+                    {
+                        if (!double.TryParse(service_input1.Text, out double ES) ||
+                        !double.TryParse(service_input2.Text, out double sd))
+
+                        {
+                            MessageBox.Show("Please enter a valid number for ES and sd inputs.");
+                            return;
+                        }
+
+                        mu = 1 / ES;
+                        variance = Math.Pow(sd, 2);
+                        CalculateGG1(lambda, mu, arrival_variance, variance);
+                    }
+
+                } else if(arrivaldist.Text == "Gamma")
+                {
+                    double K = Convert.ToDouble(arrival_input1.Text);
+                    double Q = Convert.ToDouble(arrival_input2.Text);
+
+                    lambda = K * Q;
+                    lambda = 1 / lambda;
+                    arrival_variance = K * (Math.Pow(Q, 2));
+
+
+                    if (servicedist.Text == "Uniform")
+                    {
+
+                        if (!double.TryParse(service_input1.Text, out double min_service) ||
+                        !double.TryParse(service_input2.Text, out double max_service))
+
+                        {
+                            MessageBox.Show("Please enter a valid number for min and max service inputs.");
+                            return;
+                        }
+
+                        mu = (min_service + max_service) / 2;
+                        mu = 1 / mu;
+                        variance = Math.Pow((max_service - min_service), 2) / 12;
+                        CalculateGG1(lambda, mu, arrival_variance, variance);
+                    }
+                    else if (servicedist.Text == "Gamma")
+                    {
+                        if (!double.TryParse(service_input1.Text, out double k) ||
+                         !double.TryParse(service_input2.Text, out double q))
+
+                        {
+                            MessageBox.Show("Please enter a valid number for K and Q service inputs.");
+                            return;
+                        }
+                        mu = k * q;
+                        mu = 1 / mu;
+
+                        variance = k * (Math.Pow(q, 2));
+                        CalculateGG1(lambda, mu, arrival_variance, variance);
+
+                    }
+                    else if (servicedist.Text == "Normal")
+                    {
+                        if (!double.TryParse(service_input1.Text, out double ES) ||
+                       !double.TryParse(service_input2.Text, out double sd))
+
+                        {
+                            MessageBox.Show("Please enter a valid number for ES and sd inputs.");
+                            return;
+                        }
+
+                        mu = 1 / ES;
+                        variance = Math.Pow(sd, 2);
+                        CalculateGG1(lambda, mu, arrival_variance, variance);
+                    }
+
+
+
+                } else if(arrivaldist.Text == "Normal")
+                {
+
+                    double EA = Convert.ToDouble(arrival_input1.Text);
+                    double sd = Convert.ToDouble(arrival_input2.Text);
+
+                    lambda = 1 / EA;
+                    arrival_variance = Math.Pow(sd, 2);
+
+
+                    if (servicedist.Text == "Uniform")
+                    {
+
+                        if (!double.TryParse(service_input1.Text, out double min_service) ||
+                        !double.TryParse(service_input2.Text, out double max_service))
+
+                        {
+                            MessageBox.Show("Please enter a valid number for min and max service inputs.");
+                            return;
+                        }
+
+                        mu = (min_service + max_service) / 2;
+                        mu = 1 / mu;
+                        variance = Math.Pow((max_service - min_service), 2) / 12;
+                        CalculateGG1(lambda, mu, arrival_variance, variance);
+                    }
+                    else if (servicedist.Text == "Gamma")
+                    {
+                        if (!double.TryParse(service_input1.Text, out double k) ||
+                       !double.TryParse(service_input2.Text, out double q))
+
+                        {
+                            MessageBox.Show("Please enter a valid number for K and Q service inputs.");
+                            return;
+                        }
+
+                        mu = k * q;
+                        mu = 1 / mu;
+                        variance = k * (Math.Pow(q, 2));
+                        CalculateGG1(lambda, mu, arrival_variance, variance);
+
+                    }
+                    else if (servicedist.Text == "Normal")
+                    {
+                        if (!double.TryParse(service_input1.Text, out double ES) ||
+                            !double.TryParse(service_input2.Text, out double SD))
+
+                        {
+                            MessageBox.Show("Please enter a valid number for ES and sd inputs.");
+                            return;
+                        }
+
+                        mu = 1 / ES;
+                        variance = Math.Pow(SD, 2);
+                        CalculateGG1(lambda, mu, arrival_variance, variance);
+                    }
+                    
+                } else if (arrivaldist.Text == "Exponent")
+                {
+                    
+                        lambda = 1 / lambda;
+
+                    if (servicedist.Text == "Uniform")
+
+                    {
+                        if (!double.TryParse(service_input1.Text, out double min_service) ||
+                            !double.TryParse(service_input2.Text, out double max_service))
+
+                        {
+                            MessageBox.Show("Please enter a valid number for min and max service inputs.");
+                            return;
+                        }
+
+
+                        mu = (min_service + max_service) / 2;
+                        mu = 1 / mu;
+                        variance = Math.Pow((max_service - min_service), 2) / 12;
+                        CalculateMG1(lambda, mu, variance);
+
+                    }
+                    else if (servicedist.Text == "Gamma")
+                    {
+
+                        if (!double.TryParse(service_input1.Text, out double K) ||
+                            !double.TryParse(service_input2.Text, out double Q))
+
+                        {
+                            MessageBox.Show("Please enter a valid number for K and Q service inputs.");
+                            return;
+                        }
+                        mu = K * Q;
+                        mu = 1 / mu;
+                        variance = K * (Math.Pow(Q, 2));
+                        CalculateMG1(lambda, mu, variance);
+                    }
+                    else if (servicedist.Text == "Exponential")
+                    {
+
+                        CalculateMM1(lambda, mu);
+                    }
+                    else if (servicedist.Text == "Normal")
+                    {
+
+                        if (!double.TryParse(service_input1.Text, out double ES) ||
+                            !double.TryParse(service_input2.Text, out double sd))
+
+                        {
+                            MessageBox.Show("Please enter a valid number for ES and sd inputs.");
+                            return;
+                        }
+
+                        mu = 1 / ES;
+                        variance = Math.Pow(sd, 2);
+                        CalculateMG1(lambda, mu, variance);
+
+                    }
+
+                }
+
+
+            }
+
+            }
+
+        private void CalculateMM1(double lambda, double mu)
+        {
+            double rho = lambda / mu;
+
 
             if (Servicetimeunit.Text == "Seconds")
             {
@@ -183,315 +473,182 @@ namespace WinFormsApp1
             }
 
 
-            if (modelbox.Text == "M/M/1")
+            if (rho >= 1.0)
             {
-                if (wisebox.Text == "Mean")
-                {
-                    lambda = 1 / lambda;
-                }
-
-                if (servicewise.Text == "Mean")
-                {
-                    mu = 1 / mu;
-                }
-
-                rho = lambda / mu;
-
-                if (rho >= 1.0)
-                {
-                    MessageBox.Show("The system is unstable: rho must be less than 1.");
-                    labelrho.Text = "0";
-                    idle_value.Text = "0";
-                    labelLq.Text = "0";
-                    labelWq.Text = "0";
-                    labelW.Text = "0";
-                    labelL.Text = "0";
-                    return;
-                }
-
-                idle = 1 - rho;
-                Lq = Math.Pow(rho, 2) / (1 - rho);
-                Wq = Lq / lambda;
-                W = Wq + (1 / mu);
-                L = lambda * W;
-
-
-                globalW = W;
-                globalWq = Wq;
-                current_time = Servicetimeunit.Text;
-
-                displaytimebox.SelectedIndex = Servicetimeunit.SelectedIndex;
-
-                labelrho.Text = rho.ToString();
-                idle_value.Text = idle.ToString();
-                labelLq.Text = Lq.ToString();
-                labelWq.Text = Wq.ToString();
-                labelW.Text = W.ToString();
-                labelL.Text = L.ToString();
-
-                wtime.Text = Servicetimeunit.Text;
-                wqtime.Text = Servicetimeunit.Text;
-            }
-            else if (modelbox.Text == "M/G/1")
-            {
-                if (wisebox.Text == "Mean")
-                {
-                    lambda = 1 / lambda;
-                }
-
-                if (servicedist.Text == "Uniform")
-
-                {
-                    if (!double.TryParse(service_input1.Text, out double min_service) || 
-                        !double.TryParse(service_input2.Text, out double max_service))
-
-                    {
-                        MessageBox.Show("Please enter a valid number for min and max service inputs.");
-                        return;
-                    }
-
-
-                    mu = (min_service + max_service) / 2;
-                    mu = 1 / mu;
-
-                    rho = lambda / mu;
-                    variance = Math.Pow((max_service - min_service), 2) / 12;
-                    Lq = (Math.Pow(lambda, 2) * variance + Math.Pow(rho, 2)) / (2 * (1 - rho));
-                }
-                else if (servicedist.Text == "Gamma")
-                {
-
-                    if (!double.TryParse(service_input1.Text, out double K) ||
-                        !double.TryParse(service_input2.Text, out double Q))
-
-                    {
-                        MessageBox.Show("Please enter a valid number for K and Q service inputs.");
-                        return;
-                    }
-
-                    mu = K * Q;
-                    mu = 1 / mu;
-
-                    rho = lambda / mu;
-
-                    variance = K * (Math.Pow(Q, 2));
-                    Lq = (Math.Pow(lambda, 2) * variance + Math.Pow(rho, 2)) / (2 * (1 - rho));
-                }
-                else if (servicedist.Text == "Exponential")
-                {
-
-                    rho = lambda / mu;
-                    Lq = Math.Pow(rho, 2) / (1 - rho);
-                }
-                else if (servicedist.Text == "Normal")
-                {
-
-                    if (!double.TryParse(service_input1.Text, out double ES) ||
-                        !double.TryParse(service_input2.Text, out double sd))
-
-                    {
-                        MessageBox.Show("Please enter a valid number for ES and sd inputs.");
-                        return;
-                    }
-
-                    variance = Math.Pow(sd, 2);
-
-                    rho = lambda * ES;
-                    double ES2 = variance + Math.Pow(ES, 2);
-
-                    Lq = (Math.Pow(lambda, 2) * ES2) / (2 * (1 - rho));
-
-                }
-                idle = 1 - rho;
-                Wq = Lq / lambda;
-                W = Wq + (1 / mu);
-                L = lambda * W;
-
-
-                globalW = W;
-                globalWq = Wq;
-                current_time = Servicetimeunit.Text;
-
-                displaytimebox.SelectedIndex = Servicetimeunit.SelectedIndex;
-
-                labelrho.Text = rho.ToString();
-                idle_value.Text = idle.ToString();
-                labelLq.Text = Lq.ToString();
-                labelWq.Text = Wq.ToString();
-                labelW.Text = W.ToString();
-                labelL.Text = L.ToString();
-
-                wtime.Text = Servicetimeunit.Text;
-                wqtime.Text = Servicetimeunit.Text;
-
-            }
-            else if (modelbox.Text == "G/G/1")
-            {
-                if (arrivaldist.Text == "Uniform")
-                {
-                    double min_arrival = Convert.ToDouble(arrival_input1.Text);
-                    double max_arrival = Convert.ToDouble(arrival_input2.Text);
-
-                    lambda = (min_arrival + max_arrival) / 2;
-                    lambda = 1 / lambda;
-                    arrival_variance = Math.Pow((max_arrival - min_arrival), 2) / 12;
-
-                    if(servicedist.Text == "Uniform")
-                    {
-
-                        double max_service = Convert.ToDouble(service_input2.Text);
-                        double min_service = Convert.ToDouble(service_input1.Text);
-
-                        mu = (min_service + max_service) / 2;
-                        mu = 1 / mu;
-                        variance = Math.Pow((max_service - min_service), 2) / 12;
-                    } else if (servicedist.Text == "Gamma") 
-                    {
-                        double K = Convert.ToDouble(service_input1.Text);
-                        double Q = Convert.ToDouble(service_input2.Text);
-
-                        mu = K * Q;
-                        mu = 1 / mu;
-
-                        variance = K * (Math.Pow(Q, 2));
-
-                    } else if(servicedist.Text == "Normal")
-                    {
-                        double ES = Convert.ToDouble(service_input1.Text);
-                        double sd = Convert.ToDouble(service_input2.Text);
-
-                        mu = 1 / ES;
-                        variance = Math.Pow(sd, 2);
-                    }
-
-                } else if(arrivaldist.Text == "Gamma")
-                {
-                    double K = Convert.ToDouble(arrival_input1.Text);
-                    double Q = Convert.ToDouble(arrival_input2.Text);
-
-                    mu = K * Q;
-                    arrival_variance = K * (Math.Pow(Q, 2));
-
-
-                    if (servicedist.Text == "Uniform")
-                    {
-
-                        double max_service = Convert.ToDouble(service_input2.Text);
-                        double min_service = Convert.ToDouble(service_input1.Text);
-
-                        mu = (min_service + max_service) / 2;
-                        mu = 1 / mu;
-                        variance = Math.Pow((max_service - min_service), 2) / 12;
-                    }
-                    else if (servicedist.Text == "Gamma")
-                    {
-                        double k = Convert.ToDouble(service_input1.Text);
-                        double q = Convert.ToDouble(service_input2.Text);
-
-                        mu = k * q;
-                        mu = 1 / mu;
-
-                        variance = k * (Math.Pow(q, 2));
-
-                    }
-                    else if (servicedist.Text == "Normal")
-                    {
-                        double ES = Convert.ToDouble(service_input1.Text);
-                        double sd = Convert.ToDouble(service_input2.Text);
-
-                        mu = 1 / ES;
-                        variance = Math.Pow(sd, 2);
-                    }
-
-
-
-                } else if(arrivaldist.Text == "Normal")
-                {
-
-                    double EA = Convert.ToDouble(arrival_input1.Text);
-                    double sd = Convert.ToDouble(arrival_input2.Text);
-
-                    lambda = 1 / EA;
-                    arrival_variance = Math.Pow(sd, 2);
-
-
-                    if (servicedist.Text == "Uniform")
-                    {
-
-                        double max_service = Convert.ToDouble(service_input2.Text);
-                        double min_service = Convert.ToDouble(service_input1.Text);
-
-                        mu = (min_service + max_service) / 2;
-                        mu = 1 / mu;
-                        variance = Math.Pow((max_service - min_service), 2) / 12;
-                    }
-                    else if (servicedist.Text == "Gamma")
-                    {
-                        double k = Convert.ToDouble(service_input1.Text);
-                        double q = Convert.ToDouble(service_input2.Text);
-
-                        mu = k * q;
-                        mu = 1 / mu;
-                        variance = k * (Math.Pow(q, 2));
-
-                    }
-                    else if (servicedist.Text == "Normal")
-                    {
-                        double ES = Convert.ToDouble(service_input1.Text);
-                        double SD = Convert.ToDouble(service_input2.Text);
-
-                        mu = 1 / ES;
-                        variance = Math.Pow(SD, 2);
-                    }
-                    
-                } else if (arrivaldist.Text == "Exponent")
-                {
-
-                }
-
-                rho = lambda / mu;
-                idle = 1 - rho;
-                Ca2 = arrival_variance / Math.Pow((1 / lambda),2);
-                Cs2 = variance / Math.Pow((1 / mu),2);
-
-                Lq = (Math.Pow(rho, 2) * (1 + Ca2) * (Ca2 + Cs2)) / (2 * (1 - rho) * (1 + Math.Pow(rho, 2)) * (1 + (Math.Pow(rho, 2) * Ca2)));
-
-                Wq = Lq / lambda;
-                W = Wq + (1 / mu);
-                L = lambda * W;
-
-
-                globalW = W;
-                globalWq = Wq;
-                current_time = Servicetimeunit.Text;
-
-                displaytimebox.SelectedIndex = Servicetimeunit.SelectedIndex;
-
-                
-                labelrho.Text = rho.ToString();
-                idle_value.Text = idle.ToString();
-                labelLq.Text = Lq.ToString();
-                labelWq.Text = Wq.ToString();
-                labelW.Text = W.ToString();
-                labelL.Text = L.ToString();
-
-                wtime.Text = Servicetimeunit.Text;
-                wqtime.Text = Servicetimeunit.Text;
-
+                errorRho.Visible = true;
+                labelrho.Text = "0";
+                idle_value.Text = "0";
+                labelLq.Text = "0";
+                labelWq.Text = "0";
+                labelW.Text = "0";
+                labelL.Text = "0";
+                return;
             }
 
+            double idle = 1 - rho;
+            double Lq = Math.Pow(rho, 2) / (1 - rho);
+            double  Wq = Lq / lambda;
+            double W = Wq + (1 / mu);
+             double L = lambda * W;
+
+            errorRho.Visible = false;
+            ShowResult(rho, idle, Lq, Wq, W, L);
 
         }
 
-        private void label8_Click(object sender, EventArgs e)
+        private void CalculateMG1(double lambda,double mu,double variance)
         {
 
+
+            if (Servicetimeunit.Text == "Seconds")
+            {
+                if (timebox.Text == "Minutes")
+                {
+                    lambda = lambda / 60.0;
+                }
+                else if (timebox.Text == "Hours")
+                {
+                    lambda = lambda / 3600.0;
+                }
+            }
+
+            if (Servicetimeunit.Text == "Hours")
+            {
+                if (timebox.Text == "Seconds")
+                {
+                    lambda = lambda * 3600.0;
+                }
+                else if (timebox.Text == "Hours")
+                {
+                    lambda = lambda * 60.0;
+                }
+            }
+
+            if (Servicetimeunit.Text == "Minutes")
+            {
+                if (timebox.Text == "Seconds")
+                {
+                    lambda = lambda * 60.0;
+                }
+                else if (timebox.Text == "Hours")
+                {
+                    lambda = lambda / 60.0;
+                }
+            }
+
+            double rho = lambda / mu;
+
+            if (rho >= 1.0)
+            {
+                errorRho.Visible = true;
+                labelrho.Text = "0";
+                idle_value.Text = "0";
+                labelLq.Text = "0";
+                labelWq.Text = "0";
+                labelW.Text = "0";
+                labelL.Text = "0";
+                return;
+            }
+
+            double Lq = (Math.Pow(lambda, 2) * variance + Math.Pow(rho, 2)) / (2 * (1 - rho));
+
+            double idle = 1 - rho;
+            double Wq = Lq / lambda;
+            double W = Wq + (1 / mu);
+            double L = lambda * W;
+
+            errorRho.Visible = false;
+            ShowResult(rho, idle, Lq, Wq, W, L);
         }
 
-        private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
+
+        private void CalculateGG1(double lambda, double mu, double arrival_variance,double variance)
         {
 
+
+            if (Servicetimeunit.Text == "Seconds")
+            {
+                if (timebox.Text == "Minutes")
+                {
+                    lambda = lambda / 60.0;
+                }
+                else if (timebox.Text == "Hours")
+                {
+                    lambda = lambda / 3600.0;
+                }
+            }
+
+            if (Servicetimeunit.Text == "Hours")
+            {
+                if (timebox.Text == "Seconds")
+                {
+                    lambda = lambda * 3600.0;
+                }
+                else if (timebox.Text == "Hours")
+                {
+                    lambda = lambda * 60.0;
+                }
+            }
+
+            if (Servicetimeunit.Text == "Minutes")
+            {
+                if (timebox.Text == "Seconds")
+                {
+                    lambda = lambda * 60.0;
+                }
+                else if (timebox.Text == "Hours")
+                {
+                    lambda = lambda / 60.0;
+                }
+            }
+            double rho = lambda / mu;
+
+            if (rho >= 1.0)
+            {
+                errorRho.Visible = true;
+                labelrho.Text = "0";
+                idle_value.Text = "0";
+                labelLq.Text = "0";
+                labelWq.Text = "0";
+                labelW.Text = "0";
+                labelL.Text = "0";
+                return;
+            }
+
+
+            double idle = 1 - rho;
+
+            double Ca2 = arrival_variance / Math.Pow((1 / lambda), 2);
+            double Cs2 = variance / Math.Pow((1 / mu), 2);
+            double Lq = (Math.Pow(rho, 2) * (1 + Ca2) * (Ca2 + Cs2)) / (2 * (1 - rho) * (1 + Math.Pow(rho, 2)) * (1 + (Math.Pow(rho, 2) * Ca2)));
+
+           double Wq = Lq / lambda;
+           double W = Wq + (1 / mu);
+           double L = lambda * W;
+
+            errorRho.Visible = false;
+            ShowResult(rho, idle, Lq, Wq, W, L);
         }
+
+
+        private void ShowResult(double rho,double idle,double Lq,double Wq,double W, double L)
+       {
+            globalW = W;
+            globalWq = Wq;
+            current_time = Servicetimeunit.Text;
+            displaytimebox.SelectedIndex = Servicetimeunit.SelectedIndex;
+
+            labelrho.Text = rho.ToString();
+            idle_value.Text = idle.ToString();
+            labelLq.Text = Lq.ToString();
+            labelWq.Text = Wq.ToString();
+            labelW.Text = W.ToString();
+            labelL.Text = L.ToString();
+
+            wtime.Text = Servicetimeunit.Text;
+            Wqtime.Text = Servicetimeunit.Text;
+        }
+
 
         private void comboBox6_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -571,28 +728,7 @@ namespace WinFormsApp1
             }
 
             wtime.Text = displaytimebox.Text;
-            wqtime.Text = displaytimebox.Text;
-        }
-
-
-        private void label13_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label12_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label14_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
+            Wqtime.Text = displaytimebox.Text;
         }
 
         private void servicedist_SelectedIndexChanged(object sender, EventArgs e)
@@ -638,26 +774,6 @@ namespace WinFormsApp1
 
         }
 
-        private void textBox1_TextChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel1_Paint_1(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
         private void arrivaldist_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (modelbox.Text != "G/G/1")
@@ -698,9 +814,6 @@ namespace WinFormsApp1
 
         }
 
-        private void lblservice2_Click(object sender, EventArgs e)
-        {
 
-        }
     }
 }
