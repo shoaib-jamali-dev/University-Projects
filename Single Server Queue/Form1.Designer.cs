@@ -71,8 +71,12 @@ namespace WinFormsApp1
             labelW = new Label();
             labelLq = new Label();
             labelWq = new Label();
+            label4 = new Label();
+            idle_value = new Label();
             Calculate = new Button();
             mainLayout = new TableLayoutPanel();
+            label5 = new Label();
+            label8 = new Label();
             groupBox1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -445,7 +449,6 @@ namespace WinFormsApp1
             tableLayoutPanel2.Controls.Add(label18, 0, 6);
             tableLayoutPanel2.Controls.Add(wtime, 2, 5);
             tableLayoutPanel2.Controls.Add(label17, 0, 5);
-            tableLayoutPanel2.Controls.Add(wqtime, 2, 4);
             tableLayoutPanel2.Controls.Add(label15, 0, 4);
             tableLayoutPanel2.Controls.Add(displaytimebox, 1, 0);
             tableLayoutPanel2.Controls.Add(label12, 0, 3);
@@ -455,6 +458,11 @@ namespace WinFormsApp1
             tableLayoutPanel2.Controls.Add(labelW, 1, 5);
             tableLayoutPanel2.Controls.Add(labelLq, 1, 3);
             tableLayoutPanel2.Controls.Add(labelWq, 1, 4);
+            tableLayoutPanel2.Controls.Add(label4, 0, 2);
+            tableLayoutPanel2.Controls.Add(idle_value, 1, 2);
+            tableLayoutPanel2.Controls.Add(wqtime, 2, 3);
+            tableLayoutPanel2.Controls.Add(label5, 2, 4);
+            tableLayoutPanel2.Controls.Add(label8, 2, 6);
             tableLayoutPanel2.Dock = DockStyle.Top;
             tableLayoutPanel2.Location = new Point(3, 28);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -513,11 +521,11 @@ namespace WinFormsApp1
             // 
             wqtime.AutoSize = true;
             wqtime.Font = new Font("Segoe UI", 9F);
-            wqtime.Location = new Point(497, 136);
+            wqtime.Location = new Point(497, 102);
             wqtime.Name = "wqtime";
-            wqtime.Size = new Size(15, 20);
+            wqtime.Size = new Size(42, 20);
             wqtime.TabIndex = 29;
-            wqtime.Text = "-";
+            wqtime.Text = "Units";
             // 
             // label15
             // 
@@ -615,6 +623,26 @@ namespace WinFormsApp1
             labelWq.TabIndex = 23;
             labelWq.Text = "0";
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 9F);
+            label4.Location = new Point(3, 68);
+            label4.Name = "label4";
+            label4.Size = new Size(74, 20);
+            label4.TabIndex = 30;
+            label4.Text = "Idle Time:";
+            // 
+            // idle_value
+            // 
+            idle_value.AutoSize = true;
+            idle_value.Font = new Font("Segoe UI", 9F);
+            idle_value.Location = new Point(222, 68);
+            idle_value.Name = "idle_value";
+            idle_value.Size = new Size(17, 20);
+            idle_value.TabIndex = 31;
+            idle_value.Text = "0";
+            // 
             // Calculate
             // 
             Calculate.BackColor = SystemColors.Highlight;
@@ -648,6 +676,26 @@ namespace WinFormsApp1
             mainLayout.RowStyles.Add(new RowStyle());
             mainLayout.Size = new Size(624, 869);
             mainLayout.TabIndex = 4;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 9F);
+            label5.Location = new Point(497, 136);
+            label5.Name = "label5";
+            label5.Size = new Size(15, 20);
+            label5.TabIndex = 32;
+            label5.Text = "-";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 9F);
+            label8.Location = new Point(497, 204);
+            label8.Name = "label8";
+            label8.Size = new Size(42, 20);
+            label8.TabIndex = 33;
+            label8.Text = "Units";
             // 
             // system_box
             // 
@@ -720,5 +768,9 @@ namespace WinFormsApp1
         private TableLayoutPanel mainLayout;
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
+        private Label label4;
+        private Label idle_value;
+        private Label label5;
+        private Label label8;
     }
 }
