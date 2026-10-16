@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Danish\\source\\repos\\WinFormsApp1\\WinFormsApp1\\WinFormsApp1.csproj",
-      "projectName": "WinFormsApp1",
-      "projectPath": "C:\\Users\\Danish\\source\\repos\\WinFormsApp1\\WinFormsApp1\\WinFormsApp1.csproj",
+      "projectUniqueName": "C:\\Users\\Danish\\source\\repos\\WinFormsApp1\\WinFormsApp1\\Single Server Queue.csproj",
+      "projectName": "Single Server Queue",
+      "projectPath": "C:\\Users\\Danish\\source\\repos\\WinFormsApp1\\WinFormsApp1\\Single Server Queue.csproj",
       "packagesPath": "C:\\Users\\Danish\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Danish\\source\\repos\\WinFormsApp1\\WinFormsApp1\\obj\\",
       "projectStyle": "PackageReference",

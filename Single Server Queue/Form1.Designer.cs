@@ -49,7 +49,7 @@ namespace WinFormsApp1
             arrivaldist = new ComboBox();
             label3 = new Label();
             timebox = new ComboBox();
-            wisebox = new ComboBox();
+            ArrivalWise = new ComboBox();
             label6 = new Label();
             arrivalwise_lbl = new Label();
             lbl_arrival_input2 = new Label();
@@ -94,7 +94,7 @@ namespace WinFormsApp1
             groupBox1.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             groupBox1.Location = new Point(3, 38);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(995, 446);
+            groupBox1.Size = new Size(776, 446);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "System Parameter";
@@ -125,7 +125,7 @@ namespace WinFormsApp1
             tableLayoutPanel1.Controls.Add(arrivaldist, 1, 2);
             tableLayoutPanel1.Controls.Add(label3, 0, 3);
             tableLayoutPanel1.Controls.Add(timebox, 1, 3);
-            tableLayoutPanel1.Controls.Add(wisebox, 1, 4);
+            tableLayoutPanel1.Controls.Add(ArrivalWise, 1, 4);
             tableLayoutPanel1.Controls.Add(label6, 0, 7);
             tableLayoutPanel1.Controls.Add(arrivalwise_lbl, 0, 4);
             tableLayoutPanel1.Controls.Add(lbl_arrival_input2, 0, 6);
@@ -147,7 +147,7 @@ namespace WinFormsApp1
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.Size = new Size(989, 416);
+            tableLayoutPanel1.Size = new Size(770, 416);
             tableLayoutPanel1.TabIndex = 26;
             // 
             // label1
@@ -174,9 +174,9 @@ namespace WinFormsApp1
             // 
             arrival_input2.Dock = DockStyle.Fill;
             arrival_input2.Font = new Font("Segoe UI", 9F);
-            arrival_input2.Location = new Point(465, 195);
+            arrival_input2.Location = new Point(363, 195);
             arrival_input2.Name = "arrival_input2";
-            arrival_input2.Size = new Size(521, 27);
+            arrival_input2.Size = new Size(404, 27);
             arrival_input2.TabIndex = 25;
             // 
             // labelservice1
@@ -193,9 +193,9 @@ namespace WinFormsApp1
             // 
             service_input1.Dock = DockStyle.Fill;
             service_input1.Font = new Font("Segoe UI", 9F);
-            service_input1.Location = new Point(465, 353);
+            service_input1.Location = new Point(363, 353);
             service_input1.Name = "service_input1";
-            service_input1.Size = new Size(521, 27);
+            service_input1.Size = new Size(404, 27);
             service_input1.TabIndex = 19;
             // 
             // service_rate_label
@@ -225,9 +225,9 @@ namespace WinFormsApp1
             modelbox.Font = new Font("Segoe UI", 9F);
             modelbox.FormattingEnabled = true;
             modelbox.Items.AddRange(new object[] { "M/M/1", "M/G/1", "G/G/1" });
-            modelbox.Location = new Point(465, 3);
+            modelbox.Location = new Point(363, 3);
             modelbox.Name = "modelbox";
-            modelbox.Size = new Size(521, 28);
+            modelbox.Size = new Size(404, 28);
             modelbox.TabIndex = 1;
             modelbox.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
@@ -235,18 +235,18 @@ namespace WinFormsApp1
             // 
             service_input2.Dock = DockStyle.Fill;
             service_input2.Font = new Font("Segoe UI", 9F);
-            service_input2.Location = new Point(465, 386);
+            service_input2.Location = new Point(363, 386);
             service_input2.Name = "service_input2";
-            service_input2.Size = new Size(521, 27);
+            service_input2.Size = new Size(404, 27);
             service_input2.TabIndex = 15;
             // 
             // arrival_input1
             // 
             arrival_input1.Dock = DockStyle.Fill;
             arrival_input1.Font = new Font("Segoe UI", 9F);
-            arrival_input1.Location = new Point(465, 162);
+            arrival_input1.Location = new Point(363, 162);
             arrival_input1.Name = "arrival_input1";
-            arrival_input1.Size = new Size(521, 27);
+            arrival_input1.Size = new Size(404, 27);
             arrival_input1.TabIndex = 24;
             // 
             // servicedist
@@ -256,9 +256,9 @@ namespace WinFormsApp1
             servicedist.Font = new Font("Segoe UI Semilight", 9F, FontStyle.Italic);
             servicedist.FormattingEnabled = true;
             servicedist.Items.AddRange(new object[] { "Uniform", "Gamma", "Normal", "Exponential" });
-            servicedist.Location = new Point(465, 251);
+            servicedist.Location = new Point(363, 251);
             servicedist.Name = "servicedist";
-            servicedist.Size = new Size(521, 28);
+            servicedist.Size = new Size(404, 28);
             servicedist.TabIndex = 17;
             servicedist.SelectedIndexChanged += servicedist_SelectedIndexChanged;
             // 
@@ -279,9 +279,9 @@ namespace WinFormsApp1
             servicewise.Font = new Font("Segoe UI", 9F);
             servicewise.FormattingEnabled = true;
             servicewise.Items.AddRange(new object[] { "Mean", "Rate" });
-            servicewise.Location = new Point(465, 319);
+            servicewise.Location = new Point(363, 319);
             servicewise.Name = "servicewise";
-            servicewise.Size = new Size(521, 28);
+            servicewise.Size = new Size(404, 28);
             servicewise.TabIndex = 13;
             // 
             // lbl_arrival_input1
@@ -301,9 +301,9 @@ namespace WinFormsApp1
             Servicetimeunit.Font = new Font("Segoe UI Semilight", 9F, FontStyle.Italic);
             Servicetimeunit.FormattingEnabled = true;
             Servicetimeunit.Items.AddRange(new object[] { "Seconds", "Minutes", "Hours" });
-            Servicetimeunit.Location = new Point(465, 285);
+            Servicetimeunit.Location = new Point(363, 285);
             Servicetimeunit.Name = "Servicetimeunit";
-            Servicetimeunit.Size = new Size(521, 28);
+            Servicetimeunit.Size = new Size(404, 28);
             Servicetimeunit.TabIndex = 12;
             // 
             // arrivaldistlbl
@@ -323,9 +323,9 @@ namespace WinFormsApp1
             arrivaldist.Font = new Font("Segoe UI Semilight", 9F, FontStyle.Italic);
             arrivaldist.FormattingEnabled = true;
             arrivaldist.Items.AddRange(new object[] { "Uniform", "Gamma", "Normal", "Exponential" });
-            arrivaldist.Location = new Point(465, 60);
+            arrivaldist.Location = new Point(363, 60);
             arrivaldist.Name = "arrivaldist";
-            arrivaldist.Size = new Size(521, 28);
+            arrivaldist.Size = new Size(404, 28);
             arrivaldist.TabIndex = 22;
             arrivaldist.SelectedIndexChanged += arrivaldist_SelectedIndexChanged;
             // 
@@ -347,22 +347,22 @@ namespace WinFormsApp1
             timebox.Font = new Font("Segoe UI", 9F);
             timebox.FormattingEnabled = true;
             timebox.Items.AddRange(new object[] { "Seconds", "Minutes", "Hours" });
-            timebox.Location = new Point(465, 94);
+            timebox.Location = new Point(363, 94);
             timebox.Name = "timebox";
-            timebox.Size = new Size(521, 28);
+            timebox.Size = new Size(404, 28);
             timebox.TabIndex = 4;
             // 
-            // wisebox
+            // ArrivalWise
             // 
-            wisebox.Dock = DockStyle.Fill;
-            wisebox.DropDownStyle = ComboBoxStyle.DropDownList;
-            wisebox.Font = new Font("Segoe UI", 9F);
-            wisebox.FormattingEnabled = true;
-            wisebox.Items.AddRange(new object[] { "Mean", "Rate" });
-            wisebox.Location = new Point(465, 128);
-            wisebox.Name = "wisebox";
-            wisebox.Size = new Size(521, 28);
-            wisebox.TabIndex = 6;
+            ArrivalWise.Dock = DockStyle.Fill;
+            ArrivalWise.DropDownStyle = ComboBoxStyle.DropDownList;
+            ArrivalWise.Font = new Font("Segoe UI", 9F);
+            ArrivalWise.FormattingEnabled = true;
+            ArrivalWise.Items.AddRange(new object[] { "Mean", "Rate" });
+            ArrivalWise.Location = new Point(363, 128);
+            ArrivalWise.Name = "ArrivalWise";
+            ArrivalWise.Size = new Size(404, 28);
+            ArrivalWise.TabIndex = 6;
             // 
             // label6
             // 
@@ -418,11 +418,11 @@ namespace WinFormsApp1
             // groupBox2
             // 
             groupBox2.Controls.Add(tableLayoutPanel2);
-            groupBox2.Dock = DockStyle.Fill;
+            groupBox2.Dock = DockStyle.Top;
             groupBox2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             groupBox2.Location = new Point(3, 578);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(995, 474);
+            groupBox2.Size = new Size(776, 270);
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Result";
@@ -463,7 +463,7 @@ namespace WinFormsApp1
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
-            tableLayoutPanel2.Size = new Size(989, 238);
+            tableLayoutPanel2.Size = new Size(770, 238);
             tableLayoutPanel2.TabIndex = 30;
             // 
             // label10
@@ -490,7 +490,7 @@ namespace WinFormsApp1
             // 
             wtime.AutoSize = true;
             wtime.Font = new Font("Segoe UI", 9F);
-            wtime.Location = new Point(874, 170);
+            wtime.Location = new Point(655, 170);
             wtime.Name = "wtime";
             wtime.Size = new Size(15, 20);
             wtime.TabIndex = 28;
@@ -502,9 +502,9 @@ namespace WinFormsApp1
             label17.Font = new Font("Segoe UI", 9F);
             label17.Location = new Point(3, 170);
             label17.Name = "label17";
-            label17.Size = new Size(164, 20);
+            label17.Size = new Size(166, 20);
             label17.TabIndex = 24;
-            label17.Text = "W - avg. time in Queue:";
+            label17.Text = "W - avg. time in system:";
             // 
             // label15
             // 
@@ -512,9 +512,9 @@ namespace WinFormsApp1
             label15.Font = new Font("Segoe UI", 9F);
             label15.Location = new Point(3, 136);
             label15.Name = "label15";
-            label15.Size = new Size(174, 20);
+            label15.Size = new Size(172, 20);
             label15.TabIndex = 22;
-            label15.Text = "Wq - avg. time in system:";
+            label15.Text = "Wq - avg. time in Queue:";
             // 
             // displaytimebox
             // 
@@ -523,9 +523,9 @@ namespace WinFormsApp1
             displaytimebox.Font = new Font("Segoe UI", 9F);
             displaytimebox.FormattingEnabled = true;
             displaytimebox.Items.AddRange(new object[] { "Seconds", "Minutes", "Hours" });
-            displaytimebox.Location = new Point(389, 3);
+            displaytimebox.Location = new Point(292, 3);
             displaytimebox.Name = "displaytimebox";
-            displaytimebox.Size = new Size(479, 28);
+            displaytimebox.Size = new Size(357, 28);
             displaytimebox.TabIndex = 16;
             displaytimebox.SelectedIndexChanged += comboBox6_SelectedIndexChanged;
             // 
@@ -553,7 +553,7 @@ namespace WinFormsApp1
             // 
             labelL.AutoSize = true;
             labelL.Font = new Font("Segoe UI", 9F);
-            labelL.Location = new Point(389, 204);
+            labelL.Location = new Point(292, 204);
             labelL.Name = "labelL";
             labelL.Size = new Size(17, 20);
             labelL.TabIndex = 27;
@@ -563,7 +563,7 @@ namespace WinFormsApp1
             // 
             labelrho.AutoSize = true;
             labelrho.Font = new Font("Segoe UI", 9F);
-            labelrho.Location = new Point(389, 34);
+            labelrho.Location = new Point(292, 34);
             labelrho.Name = "labelrho";
             labelrho.Size = new Size(17, 20);
             labelrho.TabIndex = 19;
@@ -573,7 +573,7 @@ namespace WinFormsApp1
             // 
             labelW.AutoSize = true;
             labelW.Font = new Font("Segoe UI", 9F);
-            labelW.Location = new Point(389, 170);
+            labelW.Location = new Point(292, 170);
             labelW.Name = "labelW";
             labelW.Size = new Size(17, 20);
             labelW.TabIndex = 26;
@@ -583,7 +583,7 @@ namespace WinFormsApp1
             // 
             labelLq.AutoSize = true;
             labelLq.Font = new Font("Segoe UI", 9F);
-            labelLq.Location = new Point(389, 102);
+            labelLq.Location = new Point(292, 102);
             labelLq.Name = "labelLq";
             labelLq.Size = new Size(17, 20);
             labelLq.TabIndex = 21;
@@ -593,7 +593,7 @@ namespace WinFormsApp1
             // 
             labelWq.AutoSize = true;
             labelWq.Font = new Font("Segoe UI", 9F);
-            labelWq.Location = new Point(389, 136);
+            labelWq.Location = new Point(292, 136);
             labelWq.Name = "labelWq";
             labelWq.Size = new Size(17, 20);
             labelWq.TabIndex = 23;
@@ -613,7 +613,7 @@ namespace WinFormsApp1
             // 
             idle_value.AutoSize = true;
             idle_value.Font = new Font("Segoe UI", 9F);
-            idle_value.Location = new Point(389, 68);
+            idle_value.Location = new Point(292, 68);
             idle_value.Name = "idle_value";
             idle_value.Size = new Size(17, 20);
             idle_value.TabIndex = 31;
@@ -623,7 +623,7 @@ namespace WinFormsApp1
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 9F);
-            label8.Location = new Point(874, 204);
+            label8.Location = new Point(655, 204);
             label8.Name = "label8";
             label8.Size = new Size(42, 20);
             label8.TabIndex = 33;
@@ -633,7 +633,7 @@ namespace WinFormsApp1
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 9F);
-            label5.Location = new Point(874, 102);
+            label5.Location = new Point(655, 102);
             label5.Name = "label5";
             label5.Size = new Size(42, 20);
             label5.TabIndex = 32;
@@ -643,7 +643,7 @@ namespace WinFormsApp1
             // 
             Wqtime.AutoSize = true;
             Wqtime.Font = new Font("Segoe UI", 9F);
-            Wqtime.Location = new Point(874, 136);
+            Wqtime.Location = new Point(655, 136);
             Wqtime.Name = "Wqtime";
             Wqtime.Size = new Size(15, 20);
             Wqtime.TabIndex = 29;
@@ -657,7 +657,7 @@ namespace WinFormsApp1
             Calculate.ForeColor = Color.AliceBlue;
             Calculate.Location = new Point(3, 510);
             Calculate.Name = "Calculate";
-            Calculate.Size = new Size(995, 62);
+            Calculate.Size = new Size(776, 62);
             Calculate.TabIndex = 3;
             Calculate.Text = "Calculate";
             Calculate.UseVisualStyleBackColor = false;
@@ -665,7 +665,6 @@ namespace WinFormsApp1
             // 
             // mainLayout
             // 
-            mainLayout.AutoScroll = true;
             mainLayout.ColumnCount = 1;
             mainLayout.ColumnStyles.Add(new ColumnStyle());
             mainLayout.Controls.Add(groupBox2, 0, 4);
@@ -682,7 +681,7 @@ namespace WinFormsApp1
             mainLayout.RowStyles.Add(new RowStyle());
             mainLayout.RowStyles.Add(new RowStyle());
             mainLayout.RowStyles.Add(new RowStyle());
-            mainLayout.Size = new Size(1022, 667);
+            mainLayout.Size = new Size(782, 869);
             mainLayout.TabIndex = 4;
             // 
             // errorRho
@@ -699,11 +698,13 @@ namespace WinFormsApp1
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1022, 667);
+            ClientSize = new Size(782, 869);
             Controls.Add(mainLayout);
             Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            MinimumSize = new Size(800, 830);
             Name = "system_box";
-            Text = "Form1";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Single Server Queue Analyzer";
             Load += system_box_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
@@ -731,7 +732,7 @@ namespace WinFormsApp1
         private Label label2;
         private TextBox arrival_input;
         private Label lbl_arrival_input2;
-        private ComboBox wisebox;
+        private ComboBox ArrivalWise;
         private Label arrivalwise_lbl;
         private ComboBox displaytimebox;
         private Label label10;

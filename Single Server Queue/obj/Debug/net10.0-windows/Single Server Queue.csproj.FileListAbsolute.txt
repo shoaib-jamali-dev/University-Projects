@@ -1,0 +1,18 @@
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\bin\Debug\net10.0-windows\Single Server Queue.exe
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\bin\Debug\net10.0-windows\Single Server Queue.deps.json
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\bin\Debug\net10.0-windows\Single Server Queue.runtimeconfig.json
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\bin\Debug\net10.0-windows\Single Server Queue.dll
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\bin\Debug\net10.0-windows\Single Server Queue.pdb
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\obj\Debug\net10.0-windows\WinFormsApp1.system_box.resources
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\obj\Debug\net10.0-windows\Single Server Queue.csproj.GenerateResource.cache
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\obj\Debug\net10.0-windows\Single Server Queue.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\obj\Debug\net10.0-windows\Single Server Queue.AssemblyInfoInputs.cache
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\obj\Debug\net10.0-windows\Single Server Queue.AssemblyInfo.cs
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\obj\Debug\net10.0-windows\Single Server Queue.csproj.CoreCompileInputs.cache
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\obj\Debug\net10.0-windows\Single Server Queue.sourcelink.json
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\obj\Debug\net10.0-windows\Single Server Queue.dll
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\obj\Debug\net10.0-windows\refint\Single Server Queue.dll
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\obj\Debug\net10.0-windows\Single Server Queue.pdb
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\obj\Debug\net10.0-windows\Single Server Queue.genruntimeconfig.cache
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\obj\Debug\net10.0-windows\ref\Single Server Queue.dll
+C:\Users\Danish\source\repos\WinFormsApp1\WinFormsApp1\obj\Debug\net10.0-windows\Single S.8037D128.Up2Date

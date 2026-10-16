@@ -14,7 +14,7 @@ namespace WinFormsApp1
             InitializeComponent();
             modelbox.SelectedIndex = 0;
             timebox.SelectedIndex = 1;
-            wisebox.SelectedIndex = 0;
+            ArrivalWise.SelectedIndex = 0;
             displaytimebox.SelectedIndex = 1;
             servicewise.SelectedIndex = 0;
             Servicetimeunit.SelectedIndex = 1;
@@ -42,7 +42,7 @@ namespace WinFormsApp1
                 arrivaldistlbl.Visible = false;
                 arrivaldist.Visible = false;
                 arrivalwise_lbl.Visible = true;
-                wisebox.Visible = true;
+                ArrivalWise.Visible = true;
                 lbl_arrival_input2.Visible = false;
                 arrival_input2.Visible = false;
                 servicedist.SelectedItem = null;
@@ -64,7 +64,7 @@ namespace WinFormsApp1
                 arrivaldistlbl.Visible = false;
                 arrivaldist.Visible = false;
                 arrivalwise_lbl.Visible = true;
-                wisebox.Visible = true;
+                ArrivalWise.Visible = true;
                 servicedist.SelectedItem = "Uniform";
                 arrivaldist.SelectedItem = null;
                 lbl_arrival_input2.Visible = false;
@@ -77,7 +77,7 @@ namespace WinFormsApp1
                 arrivaldistlbl.Visible = true;
                 arrivaldist.Visible = true;
                 arrivalwise_lbl.Visible = false;
-                wisebox.Visible = false;
+                ArrivalWise.Visible = false;
                 service_rate_label.Visible = false;
                 servicewise.Visible = false;
                 lblservice2.Visible = true;
@@ -112,9 +112,11 @@ namespace WinFormsApp1
          
 
 
-            if (modelbox.Text == "M/M/1")
+            switch (modelbox.Text)
             {
-                if (wisebox.Text == "Mean")
+                case "M/M/1":
+                {
+                if (ArrivalWise.Text == "Mean")
                 {
                     lambda = 1 / lambda;
                 }
@@ -126,10 +128,12 @@ namespace WinFormsApp1
 
                 CalculateMM1(lambda, mu);
 
-            }
-            else if (modelbox.Text == "M/G/1")
-            {
-                if (wisebox.Text == "Mean")
+            
+                    break;
+                }
+                case "M/G/1":
+                {
+                if (ArrivalWise.Text == "Mean")
                 {
                     lambda = 1 / lambda;
                 }
@@ -169,7 +173,6 @@ namespace WinFormsApp1
                 }
                 else if (servicedist.Text == "Exponential")
                 {
-
                     CalculateMM1(lambda, mu);
                 }
                 else if (servicedist.Text == "Normal")
@@ -187,15 +190,27 @@ namespace WinFormsApp1
                     variance = Math.Pow(sd, 2);
                     CalculateMG1(lambda, mu, variance);
 
+                } else if (servicedist.Text == "Deterministic")
+                {
+                    mu = 1 / mu;
+                    variance = 0;
+                    CalculateMG1(lambda, mu, variance);
+
+                }
+                    break;
                 }
 
-            }
-            else if (modelbox.Text == "G/G/1")
-            {
+                case "G/G/1":
+                {
                 if (arrivaldist.Text == "Uniform")
                 {
-                    double min_arrival = Convert.ToDouble(arrival_input1.Text);
-                    double max_arrival = Convert.ToDouble(arrival_input2.Text);
+                    if (!double.TryParse(arrival_input1.Text, out double min_arrival) ||
+                         !double.TryParse(arrival_input2.Text, out double max_arrival))
+
+                    {
+                        MessageBox.Show("Please enter a valid number for min and max service inputs.");
+                        return;
+                    }
 
                     lambda = (min_arrival + max_arrival) / 2;
                     lambda = 1 / lambda;
@@ -247,11 +262,28 @@ namespace WinFormsApp1
                         variance = Math.Pow(sd, 2);
                         CalculateGG1(lambda, mu, arrival_variance, variance);
                     }
+                    else if (servicedist.Text == "Deterministic")
+                    {
+                        mu = 1 / mu;
+                        variance = 0;
+                        CalculateGG1(lambda, mu,arrival_variance, variance);
+
+                    } else if(servicedist.Text == "Exponential")
+                            {
+                                mu = 1 / mu;
+                                variance = 1/Math.Pow(mu,2);
+                                CalculateGG1(lambda, mu, arrival_variance, variance);
+                            }
 
                 } else if(arrivaldist.Text == "Gamma")
                 {
-                    double K = Convert.ToDouble(arrival_input1.Text);
-                    double Q = Convert.ToDouble(arrival_input2.Text);
+                    if (!double.TryParse(arrival_input1.Text, out double K) ||
+                         !double.TryParse(arrival_input2.Text, out double Q))
+
+                    {
+                        MessageBox.Show("Please enter a valid number for min and max service inputs.");
+                        return;
+                    }
 
                     lambda = K * Q;
                     lambda = 1 / lambda;
@@ -304,15 +336,30 @@ namespace WinFormsApp1
                         variance = Math.Pow(sd, 2);
                         CalculateGG1(lambda, mu, arrival_variance, variance);
                     }
+                    else if (servicedist.Text == "Deterministic")
+                    {
+                        mu = 1 / mu;
+                        variance = 0;
+                        CalculateGG1(lambda, mu, arrival_variance, variance);
+
+                    }else if(servicedist.Text == "Exponential")
+                            {
+                                mu = 1 / mu;
+                                variance = 1/Math.Pow(mu,2);
+                                CalculateGG1(lambda, mu, arrival_variance, variance);
+                            }
 
 
 
                 } else if(arrivaldist.Text == "Normal")
                 {
+                    if (!double.TryParse(arrival_input1.Text, out double EA) ||
+                        !double.TryParse(arrival_input2.Text, out double sd))
 
-                    double EA = Convert.ToDouble(arrival_input1.Text);
-                    double sd = Convert.ToDouble(arrival_input2.Text);
-
+                    {
+                        MessageBox.Show("Please enter a valid number for min and max service inputs.");
+                        return;
+                    }
                     lambda = 1 / EA;
                     arrival_variance = Math.Pow(sd, 2);
 
@@ -363,7 +410,18 @@ namespace WinFormsApp1
                         variance = Math.Pow(SD, 2);
                         CalculateGG1(lambda, mu, arrival_variance, variance);
                     }
-                    
+                    else if (servicedist.Text == "Deterministic")
+                    {
+                        mu = 1 / mu;
+                        variance = 0;
+                        CalculateGG1(lambda, mu, arrival_variance, variance);
+
+                    } else if(servicedist.Text == "Exponential")
+                            {
+                                mu = 1 / mu;
+                                variance = 1/Math.Pow(mu,2);
+                                CalculateGG1(lambda, mu, arrival_variance, variance);
+                            }
                 } else if (arrivaldist.Text == "Exponent")
                 {
                     
@@ -423,18 +481,97 @@ namespace WinFormsApp1
                         CalculateMG1(lambda, mu, variance);
 
                     }
+                    else if (servicedist.Text == "Deterministic")
+                    {
+                        mu = 1 / mu;
+                        variance = 0;
+                        CalculateMG1(lambda, mu, variance);
 
+                    }
+
+                } else if (arrivaldist.Text == "Deterministic")
+                        {
+                            if (!double.TryParse(arrival_input1.Text, out double EA))
+
+                            {
+                                MessageBox.Show("Please enter a valid number for min and max service inputs.");
+                                return;
+                            }
+                            lambda = 1 / EA;
+                            arrival_variance = 0;
+
+
+                            if (servicedist.Text == "Uniform")
+                            {
+
+                                if (!double.TryParse(service_input1.Text, out double min_service) ||
+                                !double.TryParse(service_input2.Text, out double max_service))
+
+                                {
+                                    MessageBox.Show("Please enter a valid number for min and max service inputs.");
+                                    return;
+                                }
+
+                                mu = (min_service + max_service) / 2;
+                                mu = 1 / mu;
+                                variance = Math.Pow((max_service - min_service), 2) / 12;
+                                CalculateGG1(lambda, mu, arrival_variance, variance);
+                            }
+                            else if (servicedist.Text == "Gamma")
+                            {
+                                if (!double.TryParse(service_input1.Text, out double k) ||
+                                 !double.TryParse(service_input2.Text, out double q))
+
+                                {
+                                    MessageBox.Show("Please enter a valid number for K and Q service inputs.");
+                                    return;
+                                }
+                                mu = k * q;
+                                mu = 1 / mu;
+
+                                variance = k * (Math.Pow(q, 2));
+                                CalculateGG1(lambda, mu, arrival_variance, variance);
+
+                            }
+                            else if (servicedist.Text == "Normal")
+                            {
+                                if (!double.TryParse(service_input1.Text, out double ES) ||
+                               !double.TryParse(service_input2.Text, out double sd))
+
+                                {
+                                    MessageBox.Show("Please enter a valid number for ES and sd inputs.");
+                                    return;
+                                }
+
+                                mu = 1 / ES;
+                                variance = Math.Pow(sd, 2);
+                                CalculateGG1(lambda, mu, arrival_variance, variance);
+                            }
+                            else if (servicedist.Text == "Deterministic")
+                            {
+                                mu = 1 / mu;
+                                variance = 0;
+                                CalculateGG1(lambda, mu, arrival_variance, variance);
+
+                            }
+                            else if (servicedist.Text == "Exponential")
+                            {
+                                mu = 1 / mu;
+                                variance = 1 / Math.Pow(mu, 2);
+                                CalculateGG1(lambda, mu, arrival_variance, variance);
+                            }
+
+                        }
+                        break;
                 }
-
-
+                default:
+                    break;
             }
 
             }
 
         private void CalculateMM1(double lambda, double mu)
         {
-            double rho = lambda / mu;
-
 
             if (Servicetimeunit.Text == "Seconds")
             {
@@ -471,6 +608,8 @@ namespace WinFormsApp1
                     lambda = lambda / 60.0;
                 }
             }
+
+            double rho = lambda / mu;
 
 
             if (rho >= 1.0)
@@ -751,7 +890,14 @@ namespace WinFormsApp1
             {
                 lblservice2.Visible = false;
                 service_input2.Visible = false;
-                labelservice1.Text = "Service Rate";
+                labelservice1.Text = "Mean Service Rate";
+
+            }
+            else if (servicedist.Text == "Deterministic")
+            {
+                lblservice2.Visible = false;
+                service_input2.Visible = false;
+                labelservice1.Text = "Mean Service Rate E[S]";
 
             }
             else if (servicedist.Text == "Uniform")
@@ -794,7 +940,13 @@ namespace WinFormsApp1
             else if (arrivaldist.Text == "Exponential")
             {
                 lbl_arrival_input2.Visible = false;
-                lbl_arrival_input1.Text = "Arrival Rate";
+                lbl_arrival_input1.Text = "Mean Arrival Rate";
+                arrival_input2.Visible = false;
+            }
+            else if (arrivaldist.Text == "Deterministic")
+            {
+                lbl_arrival_input2.Visible = false;
+                lbl_arrival_input1.Text = "Mean Arrival Rate E[A]";
                 arrival_input2.Visible = false;
             }
             else if (arrivaldist.Text == "Uniform")
