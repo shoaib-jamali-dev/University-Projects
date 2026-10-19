@@ -5,9 +5,9 @@ namespace WinFormsApp1
     public partial class system_box : Form
     {
 
-        double globalW = 0;
-        double globalWq = 0;
-        string current_time = "Minutes";
+        private double globalW = 0;
+        private double globalWq = 0;
+        private string current_time = "Minutes";
 
         public system_box()
         {
@@ -22,7 +22,7 @@ namespace WinFormsApp1
             arrivaldist.SelectedIndex = 0;
             errorRho.Visible = false;
         }
-       
+
 
         private void system_box_Load(object sender, EventArgs e)
         {
@@ -106,390 +106,105 @@ namespace WinFormsApp1
                 return;
             }
 
-         
-            double variance = 0;
-            double arrival_variance= 0;
-         
+            
+
 
 
             switch (modelbox.Text)
             {
                 case "M/M/1":
-                {
-                if (ArrivalWise.Text == "Mean")
-                {
-                    lambda = 1 / lambda;
-                }
-
-                if (servicewise.Text == "Mean")
-                {
-                    mu = 1 / mu;
-                }
-
-                CalculateMM1(lambda, mu);
-
-            
-                    break;
-                }
-                case "M/G/1":
-                {
-                if (ArrivalWise.Text == "Mean")
-                {
-                    lambda = 1 / lambda;
-                }
-
-                if (servicedist.Text == "Uniform")
-
-                {
-                    if (!double.TryParse(service_input1.Text, out double min_service) || 
-                        !double.TryParse(service_input2.Text, out double max_service))
-
                     {
-                        MessageBox.Show("Please enter a valid number for min and max service inputs.");
-                        return;
-                    }
-
-
-                    mu = (min_service + max_service) / 2;
-                    mu = 1 / mu;
-                    variance = Math.Pow((max_service - min_service), 2) / 12;
-                    CalculateMG1(lambda, mu,variance);
-
-                }
-                else if (servicedist.Text == "Gamma")
-                {
-
-                    if (!double.TryParse(service_input1.Text, out double K) ||
-                        !double.TryParse(service_input2.Text, out double Q))
-
-                    {
-                        MessageBox.Show("Please enter a valid number for K and Q service inputs.");
-                        return;
-                    }
-                    mu = K * Q;
-                    mu = 1 / mu;
-                    variance = K * (Math.Pow(Q, 2));
-                    CalculateMG1(lambda, mu, variance);
-                }
-                else if (servicedist.Text == "Exponential")
-                {
-                    CalculateMM1(lambda, mu);
-                }
-                else if (servicedist.Text == "Normal")
-                {
-
-                    if (!double.TryParse(service_input1.Text, out double ES) ||
-                        !double.TryParse(service_input2.Text, out double sd))
-
-                    {
-                        MessageBox.Show("Please enter a valid number for ES and sd inputs.");
-                        return;
-                    }
-
-                    mu = 1 / ES;
-                    variance = Math.Pow(sd, 2);
-                    CalculateMG1(lambda, mu, variance);
-
-                } else if (servicedist.Text == "Deterministic")
-                {
-                    mu = 1 / mu;
-                    variance = 0;
-                    CalculateMG1(lambda, mu, variance);
-
-                }
-                    break;
-                }
-
-                case "G/G/1":
-                {
-                if (arrivaldist.Text == "Uniform")
-                {
-                    if (!double.TryParse(arrival_input1.Text, out double min_arrival) ||
-                         !double.TryParse(arrival_input2.Text, out double max_arrival))
-
-                    {
-                        MessageBox.Show("Please enter a valid number for min and max service inputs.");
-                        return;
-                    }
-
-                    lambda = (min_arrival + max_arrival) / 2;
-                    lambda = 1 / lambda;
-                    arrival_variance = Math.Pow((max_arrival - min_arrival), 2) / 12;
-
-                    if(servicedist.Text == "Uniform")
-                    {
-
-                        if (!double.TryParse(service_input1.Text, out double min_service) ||
-                        !double.TryParse(service_input2.Text, out double max_service))
-
+                        if (ArrivalWise.Text == "Mean")
                         {
-                            MessageBox.Show("Please enter a valid number for min and max service inputs.");
-                            return;
+                            lambda = 1 / lambda;
                         }
 
-                        mu = (min_service + max_service) / 2;
-                        mu = 1 / mu;
-                        variance = Math.Pow((max_service - min_service), 2) / 12;
-                        CalculateGG1(lambda, mu,arrival_variance, variance);
-
-                    } else if (servicedist.Text == "Gamma") 
-                    {
-                        if (!double.TryParse(service_input1.Text, out double K) ||
-                         !double.TryParse(service_input2.Text, out double Q))
-
+                        if (servicewise.Text == "Mean")
                         {
-                            MessageBox.Show("Please enter a valid number for K and Q service inputs.");
-                            return;
+                            mu = 1 / mu;
                         }
-
-                        mu = K * Q;
-                        mu = 1 / mu;
-
-                        variance = K * (Math.Pow(Q, 2));
-                        CalculateGG1(lambda, mu, arrival_variance, variance);
-
-                    } else if(servicedist.Text == "Normal")
-                    {
-                        if (!double.TryParse(service_input1.Text, out double ES) ||
-                        !double.TryParse(service_input2.Text, out double sd))
-
-                        {
-                            MessageBox.Show("Please enter a valid number for ES and sd inputs.");
-                            return;
-                        }
-
-                        mu = 1 / ES;
-                        variance = Math.Pow(sd, 2);
-                        CalculateGG1(lambda, mu, arrival_variance, variance);
-                    }
-                    else if (servicedist.Text == "Deterministic")
-                    {
-                        mu = 1 / mu;
-                        variance = 0;
-                        CalculateGG1(lambda, mu,arrival_variance, variance);
-
-                    } else if(servicedist.Text == "Exponential")
-                            {
-                                mu = 1 / mu;
-                                variance = 1/Math.Pow(mu,2);
-                                CalculateGG1(lambda, mu, arrival_variance, variance);
-                            }
-
-                } else if(arrivaldist.Text == "Gamma")
-                {
-                    if (!double.TryParse(arrival_input1.Text, out double K) ||
-                         !double.TryParse(arrival_input2.Text, out double Q))
-
-                    {
-                        MessageBox.Show("Please enter a valid number for min and max service inputs.");
-                        return;
-                    }
-
-                    lambda = K * Q;
-                    lambda = 1 / lambda;
-                    arrival_variance = K * (Math.Pow(Q, 2));
-
-
-                    if (servicedist.Text == "Uniform")
-                    {
-
-                        if (!double.TryParse(service_input1.Text, out double min_service) ||
-                        !double.TryParse(service_input2.Text, out double max_service))
-
-                        {
-                            MessageBox.Show("Please enter a valid number for min and max service inputs.");
-                            return;
-                        }
-
-                        mu = (min_service + max_service) / 2;
-                        mu = 1 / mu;
-                        variance = Math.Pow((max_service - min_service), 2) / 12;
-                        CalculateGG1(lambda, mu, arrival_variance, variance);
-                    }
-                    else if (servicedist.Text == "Gamma")
-                    {
-                        if (!double.TryParse(service_input1.Text, out double k) ||
-                         !double.TryParse(service_input2.Text, out double q))
-
-                        {
-                            MessageBox.Show("Please enter a valid number for K and Q service inputs.");
-                            return;
-                        }
-                        mu = k * q;
-                        mu = 1 / mu;
-
-                        variance = k * (Math.Pow(q, 2));
-                        CalculateGG1(lambda, mu, arrival_variance, variance);
-
-                    }
-                    else if (servicedist.Text == "Normal")
-                    {
-                        if (!double.TryParse(service_input1.Text, out double ES) ||
-                       !double.TryParse(service_input2.Text, out double sd))
-
-                        {
-                            MessageBox.Show("Please enter a valid number for ES and sd inputs.");
-                            return;
-                        }
-
-                        mu = 1 / ES;
-                        variance = Math.Pow(sd, 2);
-                        CalculateGG1(lambda, mu, arrival_variance, variance);
-                    }
-                    else if (servicedist.Text == "Deterministic")
-                    {
-                        mu = 1 / mu;
-                        variance = 0;
-                        CalculateGG1(lambda, mu, arrival_variance, variance);
-
-                    }else if(servicedist.Text == "Exponential")
-                            {
-                                mu = 1 / mu;
-                                variance = 1/Math.Pow(mu,2);
-                                CalculateGG1(lambda, mu, arrival_variance, variance);
-                            }
-
-
-
-                } else if(arrivaldist.Text == "Normal")
-                {
-                    if (!double.TryParse(arrival_input1.Text, out double EA) ||
-                        !double.TryParse(arrival_input2.Text, out double sd))
-
-                    {
-                        MessageBox.Show("Please enter a valid number for min and max service inputs.");
-                        return;
-                    }
-                    lambda = 1 / EA;
-                    arrival_variance = Math.Pow(sd, 2);
-
-
-                    if (servicedist.Text == "Uniform")
-                    {
-
-                        if (!double.TryParse(service_input1.Text, out double min_service) ||
-                        !double.TryParse(service_input2.Text, out double max_service))
-
-                        {
-                            MessageBox.Show("Please enter a valid number for min and max service inputs.");
-                            return;
-                        }
-
-                        mu = (min_service + max_service) / 2;
-                        mu = 1 / mu;
-                        variance = Math.Pow((max_service - min_service), 2) / 12;
-                        CalculateGG1(lambda, mu, arrival_variance, variance);
-                    }
-                    else if (servicedist.Text == "Gamma")
-                    {
-                        if (!double.TryParse(service_input1.Text, out double k) ||
-                       !double.TryParse(service_input2.Text, out double q))
-
-                        {
-                            MessageBox.Show("Please enter a valid number for K and Q service inputs.");
-                            return;
-                        }
-
-                        mu = k * q;
-                        mu = 1 / mu;
-                        variance = k * (Math.Pow(q, 2));
-                        CalculateGG1(lambda, mu, arrival_variance, variance);
-
-                    }
-                    else if (servicedist.Text == "Normal")
-                    {
-                        if (!double.TryParse(service_input1.Text, out double ES) ||
-                            !double.TryParse(service_input2.Text, out double SD))
-
-                        {
-                            MessageBox.Show("Please enter a valid number for ES and sd inputs.");
-                            return;
-                        }
-
-                        mu = 1 / ES;
-                        variance = Math.Pow(SD, 2);
-                        CalculateGG1(lambda, mu, arrival_variance, variance);
-                    }
-                    else if (servicedist.Text == "Deterministic")
-                    {
-                        mu = 1 / mu;
-                        variance = 0;
-                        CalculateGG1(lambda, mu, arrival_variance, variance);
-
-                    } else if(servicedist.Text == "Exponential")
-                            {
-                                mu = 1 / mu;
-                                variance = 1/Math.Pow(mu,2);
-                                CalculateGG1(lambda, mu, arrival_variance, variance);
-                            }
-                } else if (arrivaldist.Text == "Exponent")
-                {
-                    
-                        lambda = 1 / lambda;
-
-                    if (servicedist.Text == "Uniform")
-
-                    {
-                        if (!double.TryParse(service_input1.Text, out double min_service) ||
-                            !double.TryParse(service_input2.Text, out double max_service))
-
-                        {
-                            MessageBox.Show("Please enter a valid number for min and max service inputs.");
-                            return;
-                        }
-
-
-                        mu = (min_service + max_service) / 2;
-                        mu = 1 / mu;
-                        variance = Math.Pow((max_service - min_service), 2) / 12;
-                        CalculateMG1(lambda, mu, variance);
-
-                    }
-                    else if (servicedist.Text == "Gamma")
-                    {
-
-                        if (!double.TryParse(service_input1.Text, out double K) ||
-                            !double.TryParse(service_input2.Text, out double Q))
-
-                        {
-                            MessageBox.Show("Please enter a valid number for K and Q service inputs.");
-                            return;
-                        }
-                        mu = K * Q;
-                        mu = 1 / mu;
-                        variance = K * (Math.Pow(Q, 2));
-                        CalculateMG1(lambda, mu, variance);
-                    }
-                    else if (servicedist.Text == "Exponential")
-                    {
 
                         CalculateMM1(lambda, mu);
+
+
+                        break;
                     }
-                    else if (servicedist.Text == "Normal")
+                case "M/G/1":
                     {
-
-                        if (!double.TryParse(service_input1.Text, out double ES) ||
-                            !double.TryParse(service_input2.Text, out double sd))
-
+                        if (ArrivalWise.Text == "Mean")
                         {
-                            MessageBox.Show("Please enter a valid number for ES and sd inputs.");
-                            return;
+                            lambda = 1 / lambda;
                         }
 
-                        mu = 1 / ES;
-                        variance = Math.Pow(sd, 2);
-                        CalculateMG1(lambda, mu, variance);
+                        ServiceDist(out double G_mu, out double G_variance, lambda);
+                        CalculateMG1(lambda,G_mu,G_variance);
 
+                        
+                        break;
                     }
-                    else if (servicedist.Text == "Deterministic")
+
+                case "G/G/1":
                     {
-                        mu = 1 / mu;
-                        variance = 0;
-                        CalculateMG1(lambda, mu, variance);
+                        double arrival_variance = 0;
+                        if (arrivaldist.Text == "Uniform")
+                        {
+                            if (!double.TryParse(arrival_input1.Text, out double min_arrival) ||
+                                 !double.TryParse(arrival_input2.Text, out double max_arrival))
 
-                    }
+                            {
+                                MessageBox.Show("Please enter a valid number for min and max service inputs.");
+                                return;
+                            }
 
-                } else if (arrivaldist.Text == "Deterministic")
+                            lambda = (min_arrival + max_arrival) / 2;
+                            lambda = 1 / lambda;
+                            arrival_variance = Math.Pow((max_arrival - min_arrival), 2) / 12;
+                            ServiceDist(out double G_mu, out double G_variance, lambda);
+                            CalculateGG1(lambda, G_mu, arrival_variance, G_variance);
+
+
+                        }
+                        else if (arrivaldist.Text == "Gamma")
+                        {
+                            if (!double.TryParse(arrival_input1.Text, out double K) ||
+                                 !double.TryParse(arrival_input2.Text, out double Q))
+
+                            {
+                                MessageBox.Show("Please enter a valid number for min and max service inputs.");
+                                return;
+                            }
+
+                            lambda = K * Q;
+                            lambda = 1 / lambda;
+                            arrival_variance = K * (Math.Pow(Q, 2));
+                            ServiceDist(out double G_mu, out double G_variance, lambda);
+                            CalculateGG1(lambda, G_mu, arrival_variance, G_variance);
+
+                        }
+                        else if (arrivaldist.Text == "Normal")
+                        {
+                            if (!double.TryParse(arrival_input1.Text, out double EA) ||
+                                !double.TryParse(arrival_input2.Text, out double sd))
+
+                            {
+                                MessageBox.Show("Please enter a valid number for min and max service inputs.");
+                                return;
+                            }
+                            lambda = 1 / EA;
+                            arrival_variance = Math.Pow(sd, 2);
+                            ServiceDist(out double G_mu, out double G_variance, lambda);
+                            CalculateGG1(lambda, G_mu, arrival_variance, G_variance);
+                        }
+                        else if (arrivaldist.Text == "Exponential")
+                        {
+
+                            lambda = 1 / lambda;
+                            arrival_variance = 1/Math.Pow(lambda, 2);
+                            ServiceDist(out double G_mu, out double G_variance, lambda);
+                            CalculateGG1(lambda, G_mu, arrival_variance, G_variance);
+
+                        }
+                        else if (arrivaldist.Text == "Deterministic")
                         {
                             if (!double.TryParse(arrival_input1.Text, out double EA))
 
@@ -499,76 +214,16 @@ namespace WinFormsApp1
                             }
                             lambda = 1 / EA;
                             arrival_variance = 0;
-
-
-                            if (servicedist.Text == "Uniform")
-                            {
-
-                                if (!double.TryParse(service_input1.Text, out double min_service) ||
-                                !double.TryParse(service_input2.Text, out double max_service))
-
-                                {
-                                    MessageBox.Show("Please enter a valid number for min and max service inputs.");
-                                    return;
-                                }
-
-                                mu = (min_service + max_service) / 2;
-                                mu = 1 / mu;
-                                variance = Math.Pow((max_service - min_service), 2) / 12;
-                                CalculateGG1(lambda, mu, arrival_variance, variance);
-                            }
-                            else if (servicedist.Text == "Gamma")
-                            {
-                                if (!double.TryParse(service_input1.Text, out double k) ||
-                                 !double.TryParse(service_input2.Text, out double q))
-
-                                {
-                                    MessageBox.Show("Please enter a valid number for K and Q service inputs.");
-                                    return;
-                                }
-                                mu = k * q;
-                                mu = 1 / mu;
-
-                                variance = k * (Math.Pow(q, 2));
-                                CalculateGG1(lambda, mu, arrival_variance, variance);
-
-                            }
-                            else if (servicedist.Text == "Normal")
-                            {
-                                if (!double.TryParse(service_input1.Text, out double ES) ||
-                               !double.TryParse(service_input2.Text, out double sd))
-
-                                {
-                                    MessageBox.Show("Please enter a valid number for ES and sd inputs.");
-                                    return;
-                                }
-
-                                mu = 1 / ES;
-                                variance = Math.Pow(sd, 2);
-                                CalculateGG1(lambda, mu, arrival_variance, variance);
-                            }
-                            else if (servicedist.Text == "Deterministic")
-                            {
-                                mu = 1 / mu;
-                                variance = 0;
-                                CalculateGG1(lambda, mu, arrival_variance, variance);
-
-                            }
-                            else if (servicedist.Text == "Exponential")
-                            {
-                                mu = 1 / mu;
-                                variance = 1 / Math.Pow(mu, 2);
-                                CalculateGG1(lambda, mu, arrival_variance, variance);
-                            }
-
+                            ServiceDist(out double G_mu, out double G_variance, lambda);
+                            CalculateGG1(lambda, G_mu, arrival_variance, G_variance);
                         }
                         break;
-                }
+                    }
                 default:
                     break;
             }
 
-            }
+        }
 
         private void CalculateMM1(double lambda, double mu)
         {
@@ -626,16 +281,94 @@ namespace WinFormsApp1
 
             double idle = 1 - rho;
             double Lq = Math.Pow(rho, 2) / (1 - rho);
-            double  Wq = Lq / lambda;
+            double Wq = Lq / lambda;
             double W = Wq + (1 / mu);
-             double L = lambda * W;
+            double L = lambda * W;
 
             errorRho.Visible = false;
             ShowResult(rho, idle, Lq, Wq, W, L);
 
         }
 
-        private void CalculateMG1(double lambda,double mu,double variance)
+        private void ServiceDist(out double G_mu,out double G_variance,double lambda)
+        {
+            G_mu = 0; G_variance = 0;
+
+            if (servicedist.Text == "Uniform")
+
+            {
+                if (!double.TryParse(service_input1.Text, out double min_service) ||
+                    !double.TryParse(service_input2.Text, out double max_service))
+
+                {
+                    MessageBox.Show("Please enter a valid number for min and max service inputs.");
+                    return;
+                }
+
+
+                G_mu = (min_service + max_service) / 2;
+                G_mu = 1 / G_mu;
+                G_variance = Math.Pow((max_service - min_service), 2) / 12;
+          
+
+            }
+            else if (servicedist.Text == "Gamma")
+            {
+
+                if (!double.TryParse(service_input1.Text, out double K) ||
+                    !double.TryParse(service_input2.Text, out double Q))
+
+                {
+                    MessageBox.Show("Please enter a valid number for K and Q service inputs.");
+                    return;
+                }
+                G_mu = K * Q;
+                G_mu = 1 / G_mu;
+                G_variance = K * (Math.Pow(Q, 2));
+           
+            }
+            else if (servicedist.Text == "Exponential")
+            {
+                if (!double.TryParse(service_input1.Text, out double ES))
+                {
+                    MessageBox.Show("Please enter a valid number for ES and sd inputs.");
+                    return;
+                }
+
+                G_mu = 1 / ES;
+                G_variance = 1/Math.Pow(G_mu, 2);
+
+            }
+            else if (servicedist.Text == "Normal")
+            {
+
+                if (!double.TryParse(service_input1.Text, out double ES) ||
+                    !double.TryParse(service_input2.Text, out double sd))
+
+                {
+                    MessageBox.Show("Please enter a valid number for ES and sd inputs.");
+                    return;
+                }
+
+                G_mu = 1 / ES;
+                G_variance = Math.Pow(sd, 2);
+          
+
+            }
+            else if (servicedist.Text == "Deterministic")
+            {
+                if (!double.TryParse(service_input1.Text, out double ES))
+                {
+                    MessageBox.Show("Please enter a valid number for ES and sd inputs.");
+                    return;
+                }
+                G_mu = 1 / ES;
+                G_variance = 0;
+
+            }
+        }
+
+        private void CalculateMG1(double lambda, double mu, double variance)
         {
 
 
@@ -701,7 +434,7 @@ namespace WinFormsApp1
         }
 
 
-        private void CalculateGG1(double lambda, double mu, double arrival_variance,double variance)
+        private void CalculateGG1(double lambda, double mu, double arrival_variance, double variance)
         {
 
 
@@ -761,17 +494,17 @@ namespace WinFormsApp1
             double Cs2 = variance / Math.Pow((1 / mu), 2);
             double Lq = (Math.Pow(rho, 2) * (1 + Ca2) * (Ca2 + Cs2)) / (2 * (1 - rho) * (1 + Math.Pow(rho, 2)) * (1 + (Math.Pow(rho, 2) * Ca2)));
 
-           double Wq = Lq / lambda;
-           double W = Wq + (1 / mu);
-           double L = lambda * W;
+            double Wq = Lq / lambda;
+            double W = Wq + (1 / mu);
+            double L = lambda * W;
 
             errorRho.Visible = false;
             ShowResult(rho, idle, Lq, Wq, W, L);
         }
 
 
-        private void ShowResult(double rho,double idle,double Lq,double Wq,double W, double L)
-       {
+        private void ShowResult(double rho, double idle, double Lq, double Wq, double W, double L)
+        {
             globalW = W;
             globalWq = Wq;
             current_time = Servicetimeunit.Text;
@@ -914,7 +647,7 @@ namespace WinFormsApp1
                 service_input2.Visible = true;
                 lblservice2.Text = "Standard Deviation - σ:";
                 labelservice1.Text = " Mean Service Rate E[S]:";
-               
+
 
             }
 

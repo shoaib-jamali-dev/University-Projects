@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Single Server Queue")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f5364decc69f424ab0251c9c8a10b651c59c9239")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4441f411434be1a54295d6a6b4146c9b04df9cfe")]
 [assembly: System.Reflection.AssemblyProductAttribute("Single Server Queue")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Single Server Queue")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
